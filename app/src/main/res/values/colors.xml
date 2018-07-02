@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="blue">#7b9ad0</color>
+    <color name="yellow">#f8e352</color>
+    <color name="wakaba">#c8d627</color>
+    <color name="red">#d5848b</color>
+    <color name="orange">#e5ab47</color>
+    <color name="cream">#e1cea3</color>
+    <color name="green">#51a1a2</color>
+    <color name="sky">#b1d7e4</color>
+    <color name="ocean">#66b7ec</color>
+    <color name="brown">#c08e47</color>
+    <color name="purple">#ae8dbc</color>
+    <color name="kakitsubata">#c3cfa9</color>
+
+    <color name="grey">#E0E0E0</color>
+    <color name="white">#F5F5F5</color>
+</resources>

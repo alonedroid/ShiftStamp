@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/cell_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/cell_event"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cell_date"
+        android:layout_marginTop="1dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="top|center"
+        android:textColor="@color/white"
+        tools:background="@color/green"
+        tools:text="予定" />
+</RelativeLayout>

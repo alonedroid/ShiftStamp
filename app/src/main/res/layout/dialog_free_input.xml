@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
+
+    <EditText
+        android:id="@+id/free_input_title"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="8dp"
+        android:hint="タイトル" />
+
+    <FrameLayout
+        android:id="@+id/free_input_color"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/free_input_title"
+        android:background="#A4BDFC"
+        android:layout_marginRight="16dp"
+        />
+
+    <ImageView
+        android:id="@+id/free_input_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/free_input_title"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_chevron_right" />
+
+    <TextView
+        android:id="@+id/free_input_start"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_below="@id/free_input_title"
+        android:layout_toLeftOf="@id/free_input_label"
+        android:gravity="center"
+        android:text="00:00"
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/free_input_end"
+        android:layout_width="wrap_content"
+        android:layout_height="54dp"
+        android:layout_below="@id/free_input_title"
+        android:layout_toRightOf="@id/free_input_label"
+        android:gravity="center"
+        android:text="00:00"
+        android:textSize="28dp" />
+
+    <TextView
+        android:id="@+id/free_input_save"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/free_input_end"
+        android:layout_below="@id/free_input_end"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/frame_style"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="save" />
+
+    <TextView
+        android:id="@+id/free_input_cancel"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/free_input_end"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_toLeftOf="@id/free_input_save"
+        android:background="@drawable/frame_style"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="cancel" />
+</RelativeLayout>
