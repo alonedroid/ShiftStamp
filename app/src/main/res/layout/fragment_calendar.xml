@@ -16,20 +16,29 @@
 
         <TextView
             android:id="@+id/next"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="＞" />
+            android:layout_marginRight="8dp"
+            android:background="@drawable/frame_style"
+            android:gravity="center"
+            android:text="＞"
+            android:textColor="@color/btnText"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/prev"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/next"
-            android:text="＜" />
+            android:background="@drawable/frame_style"
+            android:gravity="center"
+            android:text="＜"
+            android:textColor="@color/btnText"
+            android:textSize="20dp" />
     </RelativeLayout>
 
     <FrameLayout
@@ -43,6 +52,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#AE323232"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </RelativeLayout>

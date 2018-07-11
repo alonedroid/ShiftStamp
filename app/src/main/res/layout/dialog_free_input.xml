@@ -18,10 +18,9 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/free_input_title"
-        android:background="#A4BDFC"
         android:layout_marginRight="16dp"
-        />
+        android:layout_toLeftOf="@id/free_input_title"
+        android:background="#A4BDFC" />
 
     <ImageView
         android:id="@+id/free_input_label"
@@ -77,4 +76,5 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="cancel" />
+
 </RelativeLayout>

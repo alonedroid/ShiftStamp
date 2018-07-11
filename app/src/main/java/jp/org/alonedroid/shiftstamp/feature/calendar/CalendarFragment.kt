@@ -59,7 +59,11 @@ class CalendarFragment : Fragment() {
         viewmodel.month.observe(this, Observer { month ->
             view.findViewById<TextView>(R.id.headerText).text = "${viewmodel.year.value!!}/${month!! + 1}"
             monthlyView.changeMonth(viewmodel.year.value!!, month)
-            Thread { viewmodel.fetchEvents() }.start()
+            mainviewmodel.loading.value = true
+            Thread {
+                viewmodel.fetchEvents()
+                mainviewmodel.loading.postValue(false)
+            }.start()
         })
 
         viewmodel.monthlyEvents.observe(this, Observer { events ->

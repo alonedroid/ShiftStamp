@@ -3,12 +3,17 @@ package jp.org.alonedroid.shiftstamp
 import android.Manifest
 import android.accounts.AccountManager
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
+import android.view.View
+import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -57,7 +62,16 @@ class MainActivity : AppCompatActivity() {
 
         credential = CalendarInfoUtil.getCredential(this)
 
+        prepareLogdingDialog()
         checkStatus()
+    }
+
+    private fun prepareLogdingDialog() {
+        val progress = findViewById<FrameLayout>(R.id.main_loading)
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+                .loading.observe(this, Observer { isLoading ->
+            progress.visibility = if (isLoading!!) View.VISIBLE else View.GONE
+        })
     }
 
     private fun checkStatus() {

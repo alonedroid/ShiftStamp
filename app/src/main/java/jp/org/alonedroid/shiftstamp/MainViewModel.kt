@@ -7,6 +7,7 @@ import jp.org.alonedroid.shiftstamp.data.Shift
 
 class MainViewModel internal constructor() : ViewModel() {
 
+    val loading: MutableLiveData<Boolean> = MutableLiveData()
     var mode: MutableLiveData<String> = MutableLiveData()
 
     var terminalDeleteListener: () -> Unit = {}
