@@ -28,6 +28,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
     var monthlyEvents: MutableLiveData<List<Event>> = MutableLiveData()
 
     fun initCalendar(context: Context?) {
+        observeField()
         setField(Calendar.getInstance())
 
         context?.let {
@@ -53,7 +54,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
         startCal.set(year.value!!, month.value!!, 1, 0, 0, 0)
 
         val endCal = Calendar.getInstance()
-        endCal.set(year.value!!, month.value!!, startCal.getActualMaximum(Calendar.DATE), 0, 0, 0)
+        endCal.set(year.value!!, month.value!!, startCal.getActualMaximum(Calendar.DATE), 23, 59, 59)
 
         val events = calendarUtil.getEvents(DateTime(startCal.time), DateTime(endCal.time)).items
 
@@ -63,6 +64,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
         // 反映
         monthlyEvents.postValue(events)
 
+        allEvents = SparseArray()
         events.iterator().forEach { event ->
             val cal = Calendar.getInstance()
             cal.time = Date(event.start!!.dateTime!!.value)
@@ -103,10 +105,20 @@ class MonthlyViewModel internal constructor() : ViewModel() {
 
     fun nextMonth() {
         month.value = month.value!! + 1
+        date.value = 1
     }
 
     fun prevMonth() {
         month.value = month.value!! - 1
+        date.value = 1
+    }
+
+    private fun observeField() {
+        month.observeForever({
+            val cal = Calendar.getInstance()
+            cal.set(year.value!!, it!!, 1, 0, 0, 0)
+            maxDate = cal.getActualMaximum(Calendar.DATE)
+        })
     }
 
     private fun setField(calendar: Calendar) {
