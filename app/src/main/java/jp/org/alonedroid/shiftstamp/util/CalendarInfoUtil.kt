@@ -12,7 +12,6 @@ import com.google.api.services.calendar.CalendarScopes
 import com.google.api.services.calendar.model.*
 import com.google.api.services.calendar.model.Calendar
 import java.io.IOException
-import java.util.*
 
 
 class CalendarInfoUtil(_credential: GoogleAccountCredential, _calendarId: String = "") {

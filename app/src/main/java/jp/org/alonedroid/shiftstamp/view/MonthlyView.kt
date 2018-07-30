@@ -7,7 +7,7 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import jp.org.alonedroid.shiftstamp.R
 import jp.org.alonedroid.shiftstamp.util.ActionListener1
-import java.util.*
+import jp.org.alonedroid.shiftstamp.util.MyCalendar
 
 
 class MonthlyView @JvmOverloads constructor(
@@ -28,10 +28,10 @@ class MonthlyView @JvmOverloads constructor(
 
     private fun createView() {
         val inflater = LayoutInflater.from(context)
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.DATE, 1)
-        firstDayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1
-        val endDate = calendar.getActualMaximum(Calendar.DATE)
+
+        val cal = MyCalendar()
+        firstDayIndex = cal.getFirstDay()
+        val endDate = cal.maxDate
         val viewRoot = findViewById<LinearLayout>(R.id.view_root)
 
         for (idxRow in 0..5) {
@@ -75,10 +75,9 @@ class MonthlyView @JvmOverloads constructor(
     }
 
     fun changeMonth(year: Int, month: Int) {
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, 1, 0, 0, 0)
-        firstDayIndex = calendar.get(Calendar.DAY_OF_WEEK) - 1
-        val endDate = calendar.getActualMaximum(Calendar.DATE)
+        val cal = MyCalendar(year, month, 1, 0, 0, 0)
+        firstDayIndex = cal.getFirstDay()
+        val endDate = cal.maxDate
 
         for (idxRow in 0..5) {
             for (idxCol in 0..6) {

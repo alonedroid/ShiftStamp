@@ -18,8 +18,8 @@ import jp.org.alonedroid.shiftstamp.R
 import jp.org.alonedroid.shiftstamp.feature.dialog.FreeInputDialog
 import jp.org.alonedroid.shiftstamp.util.ActionListener1
 import jp.org.alonedroid.shiftstamp.util.CalendarInfoUtil
+import jp.org.alonedroid.shiftstamp.util.MyCalendar
 import jp.org.alonedroid.shiftstamp.view.MonthlyView
-import java.util.*
 
 
 class CalendarFragment : Fragment() {
@@ -68,11 +68,10 @@ class CalendarFragment : Fragment() {
 
         viewmodel.monthlyEvents.observe(this, Observer { events ->
             events?.iterator()?.forEach { event ->
-                val cal = Calendar.getInstance()
-                cal.time = Date(event.start?.dateTime?.value ?: Date().time)
+                val cal = MyCalendar(event.start?.dateTime?.value)
 
                 monthlyView.setEvent(
-                        cal.get(Calendar.DATE),
+                        cal.date,
                         event.summary,
                         CalendarInfoUtil.convertColorIdToString(event.colorId ?: "1"))
             }

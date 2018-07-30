@@ -5,12 +5,11 @@ import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.text.TextUtils
 import android.util.SparseArray
-import com.google.api.client.util.DateTime
 import com.google.api.services.calendar.model.Event
 import jp.org.alonedroid.shiftstamp.data.Shift
 import jp.org.alonedroid.shiftstamp.util.CalendarInfoUtil
+import jp.org.alonedroid.shiftstamp.util.MyCalendar
 import jp.org.alonedroid.shiftstamp.util.SpUtil
-import java.util.*
 
 
 class MonthlyViewModel internal constructor() : ViewModel() {
@@ -29,7 +28,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
 
     fun initCalendar(context: Context?) {
         observeField()
-        setField(Calendar.getInstance())
+        setField(MyCalendar())
 
         context?.let {
             val calId = SpUtil.CALENDAR_ID.getString(context, "")
@@ -50,13 +49,10 @@ class MonthlyViewModel internal constructor() : ViewModel() {
         val targetMonth = month.value!!
 
         // イベント取得
-        val startCal = Calendar.getInstance()
-        startCal.set(year.value!!, month.value!!, 1, 0, 0, 0)
+        val startCal = MyCalendar(year.value!!, month.value!!, 1, 0, 0, 0)
+        val endCal = MyCalendar(year.value!!, month.value!!, startCal.maxDate, 23, 59, 59)
 
-        val endCal = Calendar.getInstance()
-        endCal.set(year.value!!, month.value!!, startCal.getActualMaximum(Calendar.DATE), 23, 59, 59)
-
-        val events = calendarUtil.getEvents(DateTime(startCal.time), DateTime(endCal.time)).items
+        val events = calendarUtil.getEvents(startCal.datetime, endCal.datetime).items
 
         // チェック
         if (targetMonth != month.value!!) return
@@ -66,9 +62,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
 
         allEvents = SparseArray()
         events.iterator().forEach { event ->
-            val cal = Calendar.getInstance()
-            cal.time = Date(event.start!!.dateTime!!.value)
-            allEvents.put(cal.get(Calendar.DATE), event.id)
+            allEvents.put(MyCalendar(event.start!!.dateTime!!.value).date, event.id)
         }
     }
 
@@ -80,17 +74,14 @@ class MonthlyViewModel internal constructor() : ViewModel() {
         val eHour = shift?.end?.split(":")?.get(0)
         val eMin = shift?.end?.split(":")?.get(1)
 
-        val startCal = Calendar.getInstance()
-        startCal.set(year.value!!, insMonth, insDate, sHour!!.toInt(), sMin!!.toInt(), 0)
-
-        val endCal = Calendar.getInstance()
-        endCal.set(year.value!!, insMonth, insDate, eHour!!.toInt(), eMin!!.toInt(), 0)
+        val staCal = MyCalendar(year.value!!, insMonth, insDate, sHour!!.toInt(), sMin!!.toInt(), 0)
+        val endCal = MyCalendar(year.value!!, insMonth, insDate, eHour!!.toInt(), eMin!!.toInt(), 0)
 
         val event: Event
         if (allEvents[insDate] == null) {
-            event = calendarUtil.insert(shift.title, shift.color, DateTime(startCal.time), DateTime(endCal.time))
+            event = calendarUtil.insert(shift.title, shift.color, staCal.datetime, endCal.datetime)
         } else {
-            event = calendarUtil.update(allEvents[insDate], shift.title, shift.color, DateTime(startCal.time), DateTime(endCal.time))
+            event = calendarUtil.update(allEvents[insDate], shift.title, shift.color, staCal.datetime, endCal.datetime)
         }
 
         monthlyEvents.postValue(listOf(event))
@@ -115,18 +106,16 @@ class MonthlyViewModel internal constructor() : ViewModel() {
 
     private fun observeField() {
         month.observeForever({
-            val cal = Calendar.getInstance()
-            cal.set(year.value!!, it!!, 1, 0, 0, 0)
-            maxDate = cal.getActualMaximum(Calendar.DATE)
+            maxDate = MyCalendar().getMaxDate(year.value!!, it!!)
         })
     }
 
-    private fun setField(calendar: Calendar) {
-        year.postValue(calendar.get(Calendar.YEAR))
-        month.postValue(calendar.get(Calendar.MONTH))
-        date.postValue(calendar.get(Calendar.DATE))
+    private fun setField(cal: MyCalendar) {
+        year.postValue(cal.year)
+        month.postValue(cal.month)
+        date.postValue(cal.date)
 
-        maxDate = calendar.getActualMaximum(Calendar.DATE)
+        maxDate = cal.maxDate
     }
 
     fun deleteEvent(date: Int) {
