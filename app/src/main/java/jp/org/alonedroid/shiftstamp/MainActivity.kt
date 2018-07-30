@@ -13,7 +13,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ProgressBar
 import android.widget.Toast
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
@@ -30,15 +29,10 @@ import pub.devrel.easypermissions.EasyPermissions
  * 残タスク
  * ・設定画面作成
  * ・設定モードの時にフリーと削除を無効にする
- * ・Googleのアカウント権限ダイアログの判定箇所をActivityに持っていく
- * ・初回インストール時、ホワイトアウトする不具合の調査
  * ・連携済みアカウントの表示＆変更対応
  * ・Googleカレンダーの共有ページへのリンクを追加
- * ・更新エラー時、再実行処理を実施
- * ・読み込み中ダイアログ表示
- * ・デバッグモード追加
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
     companion object {
         const val REQUEST_ACCOUNT_PICKER = 1000
@@ -60,8 +54,6 @@ class MainActivity : AppCompatActivity() {
         // ActivityにViewを設定する
         setContentView(R.layout.activity_main)
 
-        credential = CalendarInfoUtil.getCredential(this)
-
         prepareLogdingDialog()
         checkStatus()
     }
@@ -75,6 +67,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkStatus() {
+        credential = CalendarInfoUtil.getCredential(this)
+
         if (!isGooglePlayServicesAvailable()) {
             // Google Play Services が無効な場合
             acquireGooglePlayServices()
@@ -191,20 +185,26 @@ class MainActivity : AppCompatActivity() {
      */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode != Activity.RESULT_OK) {
+            Toast.makeText(this, "アプリを起動出来ませんでした", Toast.LENGTH_LONG).show()
+            finish()
+        }
+
         when (requestCode) {
-            REQUEST_GOOGLE_PLAY_SERVICES -> if (resultCode == Activity.RESULT_OK) {
+            REQUEST_GOOGLE_PLAY_SERVICES -> {
                 checkStatus()
                 return
             }
 
-            REQUEST_ACCOUNT_PICKER -> if (resultCode == Activity.RESULT_OK && data != null && data.extras != null) {
+            REQUEST_ACCOUNT_PICKER -> if (data != null && data.extras != null) {
                 val accountName = data.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)
                 accountName?.let { SpUtil.ACCOUNT_NAME.putString(this, it) }
                 checkStatus()
                 return
             }
 
-            REQUEST_AUTHORIZATION -> if (resultCode == Activity.RESULT_OK) {
+            REQUEST_AUTHORIZATION -> {
                 checkStatus()
                 return
             }
@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity() {
      * @param requestCode 要求したパーミッションに関連した request code
      * @param list        要求したパーミッションのリスト
      */
-    fun onPermissionsGranted(requestCode: Int, list: List<String>) {
+    override fun onPermissionsGranted(requestCode: Int, list: List<String>) {
         // 何もしない
     }
 
@@ -248,7 +248,8 @@ class MainActivity : AppCompatActivity() {
      * @param requestCode 要求したパーミッションに関連した request code
      * @param list        要求したパーミッションのリスト
      */
-    fun onPermissionsDenied(requestCode: Int, list: List<String>) {
-        // 何もしない
+    override fun onPermissionsDenied(requestCode: Int, list: List<String>) {
+        Toast.makeText(this, "アプリを起動出来ませんでした", Toast.LENGTH_LONG).show()
+        finish()
     }
 }

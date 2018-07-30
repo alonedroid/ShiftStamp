@@ -37,6 +37,7 @@ class MonthlyViewModel internal constructor() : ViewModel() {
             if (TextUtils.isEmpty(calId)) {
                 calendarUtil.chooseCalendar()
                 SpUtil.CALENDAR_ID.putString(context, calendarUtil.calendarId)
+                month.postValue(month.value)
             }
 
             initialize = true
