@@ -20,6 +20,7 @@
     <color name="grey">#E0E0E0</color>
     <color name="white">#F5F5F5</color>
     <color name="alphaBlack">#32323232</color>
+    <color name="selectBlue">#001275</color>
 
     <color name="btnText">#005f48</color>
 </resources>

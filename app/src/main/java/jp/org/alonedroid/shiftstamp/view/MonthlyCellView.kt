@@ -2,6 +2,7 @@ package jp.org.alonedroid.shiftstamp.view
 
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -34,11 +35,13 @@ class MonthlyCellView @JvmOverloads constructor(
     }
 
     fun focus() {
-        dateView.setBackgroundColor(Color.CYAN)
+        dateView.setBackgroundResource(R.color.selectBlue)
+        dateView.setTextColor(Color.WHITE)
     }
 
     fun focusOut() {
         dateView.setBackgroundColor(Color.TRANSPARENT)
+        dateView.setTextColor(ContextCompat.getColor(context, R.color.secondary_text_default_material_light))
     }
 
     fun clearEvent() {

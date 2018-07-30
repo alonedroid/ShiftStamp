@@ -16,29 +16,33 @@
 
         <TextView
             android:id="@+id/next"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/frame_style"
             android:gravity="center"
-            android:text="＞"
+            android:padding="10dp"
+            android:text="次月 ＞"
             android:textColor="@color/btnText"
-            android:textSize="20dp" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/prev"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
             android:layout_marginRight="8dp"
             android:layout_toLeftOf="@id/next"
             android:background="@drawable/frame_style"
             android:gravity="center"
-            android:text="＜"
+            android:padding="10dp"
+            android:text="＜ 前月"
             android:textColor="@color/btnText"
-            android:textSize="20dp" />
+            android:textSize="12dp" />
     </RelativeLayout>
 
     <FrameLayout
